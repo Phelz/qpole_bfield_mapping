@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_C_COMPILER "clang")
-set(CMAKE_CPP_COMPILER "clang++")
+# set(CMAKE_C_COMPILER clang-omp)
+# set(CMAKE_CPP_COMPILER clang-omp++)
 
+# message(STATUS "set env var")
+# set(ENV{CC} "/usr/local/opt/llvm/bin/clang")
+# set(ENV{CXX} "/usr/local/opt/llvm/bin/clang++")
+# set(ENV{LDFLAGS} "-L/usr/local/opt/llvm/lib")
+# set(ENV{CPPFLAGS} "-I/usr/local/opt/llvm/include")
 
 project(bfield_modelling VERSION 1.0)
 

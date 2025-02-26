@@ -6,6 +6,7 @@ using namespace std;
 #include <iomanip>
 #include <omp.h>
 #include <sstream>
+#include <map>
 // #include <windows.h> // ! No longer using windows
 
 #include "constants.h"
@@ -198,6 +199,11 @@ void test_particle_trace(const uint32_t grid_size) {
   calc_bfield_parallel_chukman(num_segments, segment_start, segment_end,
                                grid.size() / 3, grid.data(),
                                bfield_chukman.data(), true);
+  
+  // scale the magnetic field with MU_0/4PI
+  for (size_t i = 0; i < bfield_chukman.size(); i++) {
+    bfield_chukman[i] *= MU0 / (4.0 * PI);
+  }
 
   // Save magnetic field data
   save_magnetic_field("../data/B_field_wire_chukman.txt", grid.data(),
@@ -209,13 +215,33 @@ void test_all_particle_traces(const uint32_t grid_size) {
   // Create grid
   vector<PRECISION_TYPE> grid;
   generate_uniform_grid(grid, XMIN - X_RANGE / 2, XMAX + X_RANGE / 2,
-                        	  YMIN - Y_RANGE / 2, YMAX + Y_RANGE / 2,
-                        	  ZMIN - Z_RANGE / 2, ZMAX + Z_RANGE / 2, grid_size);
+                            YMIN - Y_RANGE / 2, YMAX + Y_RANGE / 2,
+                            ZMIN - Z_RANGE / 2, ZMAX + Z_RANGE / 2, grid_size);
 
   string directory = TRACES_DIR;
 
   // Initialize magnetic field vectors to accumulate results
   vector<PRECISION_TYPE> bfield_chukman(grid.size(), 0.0);
+
+  // Read currents from the file
+  map<int, PRECISION_TYPE> particle_currents;
+  ifstream currents_file("../data/particle_currents.csv");
+  if (currents_file.is_open()) {
+    string line;
+    while (getline(currents_file, line)) {
+      istringstream iss(line);
+      int particle_number;
+      PRECISION_TYPE current;
+      char comma;
+      if (iss >> particle_number >> comma >> current) {
+        particle_currents[particle_number] = current;
+      }
+    }
+    currents_file.close();
+  } else {
+    cerr << "Error: Could not open particle currents file!" << endl;
+    return;
+  }
 
   // Iterate over all particle trace files (particle_0.csv to particle_599.csv)
   for (int i = 0; i < 600; i++) {
@@ -227,6 +253,12 @@ void test_all_particle_traces(const uint32_t grid_size) {
       cout << "Skipping missing particle trace #: " << i << endl;
       continue; // Skip this particle
     }
+
+    // Get the current for this particle
+    PRECISION_TYPE current = particle_currents[i];
+    // Lets do some print statements for testing
+    cout << "Current for particle " << i << " is " << current << endl;
+
 
     ParticleTrace particle_trace(filepath);
 
@@ -248,6 +280,11 @@ void test_all_particle_traces(const uint32_t grid_size) {
     calc_bfield_parallel_chukman(num_segments, segment_start, segment_end,
                                  grid.size() / 3, grid.data(),
                                  bfield_chukman_temp.data(), false);
+
+
+    for (size_t i = 0; i < bfield_chukman_temp.size(); i++) {
+      bfield_chukman_temp[i] *= (MU0*current) / (4.0 * PI);
+    }
 
     // Accumulate B-field results for this particle trace
     for (size_t grid_indx = 0; grid_indx < bfield_chukman.size(); grid_indx++) {

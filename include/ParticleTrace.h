@@ -15,6 +15,7 @@ class ParticleTrace {
     private:
     PRECISION_TYPE* segment_start;  // Flat array for segment start points
     PRECISION_TYPE* segment_end;    // Flat array for segment end points
+    PRECISION_TYPE current;
     size_t num_segments;
 
 public:
@@ -26,7 +27,7 @@ public:
 
     const PRECISION_TYPE* getSegmentStart() { return segment_start; };
     const PRECISION_TYPE* getSegmentEnd() { return segment_end; };
-    const size_t getNumSegments() const { return num_segments; }
+    const size_t getNumSegments() const { return num_segments; };
 };
 
 ParticleTrace::ParticleTrace(const string& filename)
@@ -38,6 +39,8 @@ ParticleTrace::~ParticleTrace() {
     delete[] segment_start;
     delete[] segment_end;
 }
+
+
 
 void ParticleTrace::readCSV(const string& filename) {
     ifstream file(filename);
@@ -83,3 +86,5 @@ void ParticleTrace::readCSV(const string& filename) {
         segment_end[i * 3 + 2]   = positions[(i + 1) * 3 + 2];
     }
 }
+
+
