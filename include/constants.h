@@ -1,0 +1,36 @@
+#pragma once
+
+typedef long double PRECISION_TYPE;
+//typedef double PRECISION_TYPE;
+
+// * Constants * //
+const PRECISION_TYPE PI = 3.141592653589793238462643383279502884197169399375105820974944L;
+const PRECISION_TYPE MU0 = 1.2566370612720e-6L;
+const PRECISION_TYPE TOO_SMALL = 1e-16L;
+
+
+// * Geometry * //
+const int NUM_REPS = 10;
+const PRECISION_TYPE HEIGHT_ONE_REP = (2.65559999993917  + 0.12700599999999995 )/ 1000;
+
+const PRECISION_TYPE YMIN = 0.0745003179;
+const PRECISION_TYPE YMAX = 0.0757665179;
+
+const PRECISION_TYPE ZMAX = 0.1299945058;
+const PRECISION_TYPE ZMIN = -0.05763149421;
+
+const PRECISION_TYPE XMIN = -0.08036515459;
+const PRECISION_TYPE XMAX = 0.1034488454;
+
+// Calculate the ranges
+const PRECISION_TYPE X_RANGE = XMAX - XMIN;
+const PRECISION_TYPE Y_RANGE = YMAX - YMIN;
+const PRECISION_TYPE Z_RANGE = ZMAX - ZMIN;
+
+
+// * Simulation * //
+constexpr auto OUTPUT_PRECISION = 20;
+constexpr auto NUM_THREADS = 8;
+
+// * Data * //
+constexpr auto TRACES_DIR = "../data/particle_data_stitched";
