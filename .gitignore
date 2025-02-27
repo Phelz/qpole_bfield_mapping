@@ -1,1 +1,3 @@
 build/
+data/*loop.csv
+data/B_field*wire_z.csv

@@ -144,7 +144,7 @@ void test_circular_loop(const uint32_t num_segments, PRECISION_TYPE loop_radius,
                                bfield_chukman.data(), true);
 
   // Save magnetic field data
-  save_magnetic_field("../data/B_field_loop_chukman.txt", grid.data(),
+  save_magnetic_field("../data/B_field_loop.csv", grid.data(),
                       bfield_chukman.data(), grid.size() / 3);
 }
 
@@ -170,8 +170,23 @@ void test_wire_z(const uint32_t num_segments, PRECISION_TYPE zmin,
 
   // Save magnetic field data
 
-  save_magnetic_field("../data/B_field_wire_chukman.txt", grid.data(),
+  save_magnetic_field("../data/B_field_wire_z.csv", grid.data(),
                       bfield_chukman.data(), grid.size() / 3);
+
+  // also save the positions of the wire segments
+  ofstream wire_file("../data/wire_z.csv", ios::out | ios::trunc);
+  if (!wire_file.is_open()) {
+    cerr << "Error: Could not open file wire_z.csv for writing!" << endl;
+    return;
+  }
+
+  wire_file << fixed << setprecision(OUTPUT_PRECISION);
+  wire_file << "x,y,z\n";
+  for (uint32_t i = 0; i < num_segments; i++) {
+    wire_file << segment_start[3 * i] << "," << segment_start[3 * i + 1] << "," << segment_start[3 * i + 2] << "\n";
+  }
+
+
 }
 
 void test_particle_trace(const uint32_t grid_size) {
@@ -183,8 +198,8 @@ void test_particle_trace(const uint32_t grid_size) {
                         	  YMIN_STITCHED - Y_RANGE_STITCHED / 2, YMAX + Y_RANGE_STITCHED / 2,
                         	  ZMIN - Z_RANGE / 2, ZMAX + Z_RANGE / 2, grid_size);
 
-  string directory = TRACES_DIR;
-  string filepath = directory + "/particle_1.csv";
+  // string directory = TRACES_DIR;
+  string filepath = "../data/particle_data_trimmed/particle_1.csv";
   ParticleTrace particle_trace(filepath);
 
   // Retrieve segments
@@ -206,7 +221,7 @@ void test_particle_trace(const uint32_t grid_size) {
   }
 
   // Save magnetic field data
-  save_magnetic_field("../data/B_field_wire_chukman.txt", grid.data(),
+  save_magnetic_field("../data/B_field_one_particle.csv", grid.data(),
                       bfield_chukman.data(), grid.size() / 3);
 }
 
@@ -320,8 +335,8 @@ int main() {
 
   // test_wire_z(100, -10.0, 10.0, 100);
   // test_circular_loop(100, 2.0, 100);
-  // test_particle_trace(30);
-  test_all_particle_traces(30);
+  test_particle_trace(30);
+  // test_all_particle_traces(30);
 
   cout << "This is working" << endl;
 }

@@ -89,10 +89,11 @@ void calc_bfield_parallel_chukman(const uint32_t num_seg,
 
         if (print_progress) {if (seg_indx % (num_seg / 10) == 0 || seg_indx == num_seg - 1) { // Update for every 10% of progress or at the last segment
                 int percentage = static_cast<int>((static_cast<double>(seg_indx) / num_seg) * 100);
-                cout << "Progress (SE): " << percentage << "% (" << seg_indx << " / " << num_seg << ")" << endl;
+                cout << "Progress: " << percentage << "% (" << seg_indx << " / " << num_seg << ")" << endl;
             }
         }
     }
+    
     auto end_time = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = end_time - start_time;
     cout << "Bfield Calculation finished (Chukman). Time elapsed: " << elapsed.count() << " seconds" << endl;

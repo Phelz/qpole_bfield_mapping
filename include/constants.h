@@ -33,7 +33,8 @@ const PRECISION_TYPE Y_RANGE_STITCHED = YMAX - YMIN_STITCHED;
 
 // * Simulation * //
 constexpr auto OUTPUT_PRECISION = 20;
-constexpr auto NUM_THREADS = 28;
+// constexpr auto NUM_THREADS = 28;
+constexpr auto NUM_THREADS = 4;
 
 // * Data * //
 constexpr auto TRACES_DIR = "../data/particle_data_stitched";
