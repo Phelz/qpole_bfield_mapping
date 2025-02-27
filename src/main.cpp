@@ -180,7 +180,7 @@ void test_particle_trace(const uint32_t grid_size) {
   // Create grid
   vector<PRECISION_TYPE> grid;
   generate_uniform_grid(grid, XMIN - X_RANGE / 2, XMAX + X_RANGE / 2,
-                        	  YMIN - Y_RANGE / 2, YMAX + Y_RANGE / 2,
+                        	  YMIN_STITCHED - Y_RANGE_STITCHED / 2, YMAX + Y_RANGE_STITCHED / 2,
                         	  ZMIN - Z_RANGE / 2, ZMAX + Z_RANGE / 2, grid_size);
 
   string directory = TRACES_DIR;
@@ -215,7 +215,7 @@ void test_all_particle_traces(const uint32_t grid_size) {
   // Create grid
   vector<PRECISION_TYPE> grid;
   generate_uniform_grid(grid, XMIN - X_RANGE / 2, XMAX + X_RANGE / 2,
-                            YMIN - Y_RANGE / 2, YMAX + Y_RANGE / 2,
+                            YMIN_STITCHED - Y_RANGE_STITCHED / 2, YMAX + Y_RANGE_STITCHED / 2,
                             ZMIN - Z_RANGE / 2, ZMAX + Z_RANGE / 2, grid_size);
 
   string directory = TRACES_DIR;
@@ -298,7 +298,7 @@ void test_all_particle_traces(const uint32_t grid_size) {
   }
 
   // Save the final accumulated magnetic field data
-  save_magnetic_field("B_field_traces_chukman_total.txt", grid.data(),
+  save_magnetic_field("B_field_traces_total.txt", grid.data(),
                       bfield_chukman.data(), grid.size() / 3);
 
   cout << "Finished processing all particle traces. Total B-field accumulated "
