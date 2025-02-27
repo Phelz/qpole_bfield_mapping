@@ -313,7 +313,7 @@ void test_all_particle_traces(const uint32_t grid_size) {
   }
 
   // Save the final accumulated magnetic field data
-  save_magnetic_field("B_field_traces_total.txt", grid.data(),
+  save_magnetic_field("B_field_all_traces_total.csv", grid.data(),
                       bfield_chukman.data(), grid.size() / 3);
 
   cout << "Finished processing all particle traces. Total B-field accumulated "
@@ -335,8 +335,8 @@ int main() {
 
   // test_wire_z(100, -10.0, 10.0, 100);
   // test_circular_loop(100, 2.0, 100);
-  test_particle_trace(30);
-  // test_all_particle_traces(30);
+  // test_particle_trace(30);
+  test_all_particle_traces(30);
 
   cout << "This is working" << endl;
 }
